@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HETAT Workspace | Notion + Trello AI</title>
+    <title>HETAT Super Workspace</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
@@ -18,104 +18,67 @@
             --notion-text: #37352f;
             --notion-muted: #787774;
             --primary-color: #2383e2;
-            --trello-todo: #eaedf0;
-            --trello-doing: #e2f0fd;
-            --trello-done: #e3fcef;
+            --primary-hover: #1a62b8;
+            --keep-bg: #fef7e0;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
         body { background-color: var(--notion-bg); color: var(--notion-text); display: flex; height: 100vh; overflow: hidden; }
 
-        /* الشغل كله بأسلوب Notion - Sidebar */
-        .sidebar {
-            width: 260px;
-            background-color: var(--notion-sidebar);
-            border-left: 1px solid var(--notion-border);
-            display: flex;
-            flex-direction: column;
-            padding: 1.5rem 1rem;
-            justify-content: space-between;
-        }
-
-        .brand { font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 10px; margin-bottom: 2rem; color: var(--notion-text); }
-        .menu-item { padding: 0.6rem 0.8rem; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; color: var(--notion-text); font-weight: 500; transition: background 0.2s; margin-bottom: 5px; }
+        /* شريط التنقل الجانبي */
+        .sidebar { width: 260px; background-color: var(--notion-sidebar); border-left: 1px solid var(--notion-border); display: flex; flex-direction: column; padding: 1.5rem 1rem; justify-content: space-between; }
+        .brand { font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 10px; margin-bottom: 2rem; }
+        .menu-item { padding: 0.6rem 0.8rem; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 500; transition: background 0.2s; margin-bottom: 5px; }
         .menu-item:hover, .menu-item.active { background-color: #efeee8; }
-        .menu-item i { color: var(--notion-muted); }
-
-        /* منطقة العمل الرئيسية */
-        .workspace { flex: 1; display: flex; flex-direction: column; height: 100%; overflow-y: auto; background: #fff; }
-        .workspace-header { padding: 2rem 3rem 1rem 3rem; border-bottom: 1px solid var(--notion-border); }
-        .workspace-title { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .workspace-desc { color: var(--notion-muted); font-size: 1rem; }
-
-        .content-body { padding: 2rem 3rem; display: flex; flex-direction: column; gap: 2rem; }
-
-        /* منطقة محرر الـ Notion */
-        .notion-editor-box {
-            background: #fff;
-            border: 1px solid var(--notion-border);
-            border-radius: 8px;
-            padding: 1.5rem;
-        }
-        textarea { width: 100%; height: 120px; border: none; resize: none; font-size: 1.1rem; color: var(--notion-text); outline: none; background: transparent; }
-        .editor-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; border-top: 1px solid var(--notion-border); padding-top: 1rem; }
         
-        .ai-btn { background-color: var(--primary-color); color: white; border: none; padding: 0.6rem 1.5rem; font-weight: 700; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.95rem; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-        .ai-btn:hover { opacity: 0.9; }
-        .ai-btn:disabled { background-color: var(--notion-muted); cursor: not-allowed; }
-
-        /* لوحة الـ Trello (Kanban Board) */
-        .trello-board {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            align-items: flex-start;
-            margin-top: 1rem;
-        }
-
-        .trello-column {
-            background-color: #f1f2f4;
-            border-radius: 12px;
-            padding: 1rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            max-height: 70vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .column-header { font-weight: 700; font-size: 1rem; padding-bottom: 0.8rem; display: flex; justify-content: space-between; align-items: center; color: #44546f; }
-        .column-count { background: #dcdfe4; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; }
+        /* مساحة العمل والتبويبات */
+        .workspace { flex: 1; display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+        .workspace-header { padding: 1.5rem 2rem 0 2rem; border-bottom: 1px solid var(--notion-border); background: #fff; }
+        .workspace-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
         
-        /* قائمة الكروت القابلة للسحب */
-        .cards-list { min-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.8rem; padding-bottom: 1rem; }
-        
-        /* شكل الكارت التريلو الاحترافي */
-        .task-card {
-            background: white;
-            padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 1px 1px #091e4240, 0 0 1px #091e424f;
-            cursor: grab;
-            transition: transform 0.15s, box-shadow 0.15s;
-            border-right: 4px solid var(--notion-border);
-        }
-        .task-card:active { cursor: grabbing; transform: scale(1.02); }
-        .task-title { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--notion-text); }
-        
-        .card-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-top: 0.8rem; }
-        .card-time { color: var(--notion-muted); display: flex; align-items: center; gap: 4px; }
-        
-        .tag { padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 500; }
-        .tag-work { background-color: #e0f2fe; color: #0369a1; }
-        .tag-personal { background-color: #f3e8ff; color: #6b21a8; }
-        .tag-study { background-color: #e0e7ff; color: #3730a3; }
-        .tag-health { background-color: #d1fae5; color: #065f46; }
+        /* أزرار التنقل العلوية (نوشن ستايل) */
+        .tabs-nav { display: flex; gap: 1rem; margin-top: 1rem; }
+        .tab-btn { padding: 0.5rem 1rem; cursor: pointer; border: none; background: none; font-size: 1rem; font-weight: 500; color: var(--notion-muted); border-bottom: 2px solid transparent; transition: all 0.2s; }
+        .tab-btn.active { color: var(--notion-text); border-bottom-color: var(--notion-text); font-weight: 700; }
 
-        /* تلوين الأعمدة تريلو ستايل */
-        #todo-column { border-top: 4px solid #a3a3a3; }
-        #doing-column { border-top: 4px solid var(--primary-color); }
-        #done-column { border-top: 4px solid #10b981; }
+        .view-content { flex: 1; padding: 2rem; overflow-y: auto; display: none; }
+        .view-content.active { display: block; }
 
+        /* مساعد الـ AI في الأعلى */
+        .ai-assistant-box { background: #fff; border: 1px solid var(--notion-border); border-radius: 8px; padding: 1rem; margin-bottom: 2rem; }
+        .ai-assistant-box textarea { width: 100%; height: 60px; border: none; resize: none; font-size: 1rem; outline: none; background: transparent; }
+        .ai-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; border-top: 1px solid var(--notion-border); padding-top: 0.5rem; }
+
+        /* 1. نظام تريلو (Kanban) */
+        .trello-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; align-items: flex-start; }
+        .trello-column { background-color: #f1f2f4; border-radius: 12px; padding: 1rem; max-height: 70vh; display: flex; flex-direction: column; }
+        .column-header { font-weight: 700; padding-bottom: 0.8rem; display: flex; justify-content: space-between; color: #44546f; }
+        .cards-list { min-height: 50px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.8rem; }
+        .task-card { background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 1px 1px #091e4240; cursor: grab; }
+        .add-card-btn { background: transparent; border: none; color: #44546f; padding: 0.5rem; text-align: right; cursor: pointer; display: flex; align-items: center; gap: 5px; font-weight: 500; margin-top: 0.5rem; border-radius: 6px; }
+        .add-card-btn:hover { background: #dcdfe4; }
+
+        /* 2. نظام جوجل كيب (Keep Notes) */
+        .keep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+        .keep-note { background: var(--keep-bg); border: 1px solid #e0b34e; border-radius: 8px; padding: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); height: fit-content; }
+        .keep-title { font-weight: 700; margin-bottom: 0.5rem; font-size: 1rem; display: flex; justify-content: space-between; }
+        .keep-item { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 0.9rem; }
+        .keep-item input[type="checkbox"]:checked + span { text-decoration: line-through; color: var(--notion-muted); }
+        .add-keep-btn { background: #f1f2f4; border: 1px dashed var(--notion-border); padding: 1rem; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 500; color: var(--notion-muted); }
+
+        /* 3. نظام جداول نوشن (Notion Tables) */
+        .notion-table-wrapper { border: 1px solid var(--notion-border); border-radius: 8px; overflow: hidden; background: #fff; }
+        table { width: 100%; border-collapse: collapse; text-align: right; }
+        th { background-color: #fbfbfa; color: var(--notion-muted); padding: 0.8rem; font-weight: 500; border-bottom: 1px solid var(--notion-border); border-left: 1px solid var(--notion-border); font-size: 0.9rem; }
+        td { padding: 0.8rem; border-bottom: 1px solid var(--notion-border); border-left: 1px solid var(--notion-border); font-size: 0.95rem; }
+        .table-input { width: 100%; border: none; outline: none; background: transparent; font-size: 0.95rem; }
+        .table-input:focus { background: #f4f5f7; }
+        .add-row-btn { padding: 0.6rem 1rem; background: transparent; border: none; color: var(--notion-muted); cursor: pointer; display: flex; align-items: center; gap: 5px; font-size: 0.9rem; }
+        .add-row-btn:hover { background: #f4f5f7; color: var(--notion-text); }
+
+        /* أزرار وتنسيقات عامة */
+        .ai-btn { background-color: var(--primary-color); color: white; border: none; padding: 0.4rem 1rem; font-weight: 700; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 5px; font-size: 0.9rem; }
+        .tag { padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background: #e2e8f0; }
         .spinner { animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -124,160 +87,161 @@
 
     <div class="sidebar">
         <div>
-            <div class="brand">
-                <i class="fa-solid fa-cube" style="color: var(--primary-color);"></i>
-                <span>HETAT Workspace</span>
-            </div>
-            <div class="menu-item active">
-                <i class="fa-solid fa-house"></i>
-                <span>مساحة العمل الذكية</span>
-            </div>
-            <div class="menu-item">
-                <i class="fa-solid fa-book-open"></i>
-                <span>مفكرة الملاحظات</span>
-            </div>
-            <div class="menu-item">
-                <i class="fa-solid fa-gear"></i>
-                <span>الإعدادات</span>
-            </div>
+            <div class="brand"><i class="fa-solid fa-cube" style="color: var(--primary-color);"></i><span>HETAT OS</span></div>
+            <div class="menu-item active"><i class="fa-solid fa-folder"></i><span>مساحة الإنتاجية المطلقة</span></div>
         </div>
-        <div style="font-size: 0.8rem; color: var(--notion-muted); text-align: center;">
-            HETAT Engine v2.0
-        </div>
+        <div style="font-size: 0.8rem; color: var(--notion-muted); text-align: center;">HETAT Engine v3.0</div>
     </div>
 
     <div class="workspace">
         <div class="workspace-header">
-            <div class="workspace-title">لوحة التخطيط الذكية</div>
-            <div class="workspace-desc">اكتب ملاحظاتك العشوائية بأسلوب Notion، ودع الـ AI يبني لك لوحة Trello تفاعلية وقابلة للسحب والإفلات.</div>
+            <div class="workspace-title">لوحة التحكم والمزامنة الثلاثية</div>
+            <div class="tabs-nav">
+                <div class="tab-btn active" onclick="switchTab('trello')"><i class="fa-solid fa-square-poll-horizontal"></i> لوحة تريلو</div>
+                <div class="tab-btn" onclick="switchTab('keep')"><i class="fa-solid fa-note-sticky"></i> قوائم كيب</div>
+                <div class="tab-btn" onclick="switchTab('notion')"><i class="fa-solid fa-table"></i> جداول نوشن</div>
+            </div>
         </div>
 
-        <div class="content-body">
-            <div class="notion-editor-box">
-                <textarea id="notionInput" placeholder="اكتب يومياتك أو أفكارك هنا عشوائياً... (مثال: لازم أسجل فيديو حتت الجديد بكرة العصر، وعندي مراجعة كود بايثون مهمة الساعة 8، ومحتاج أشتري طلبات للمجلة بالليل)"></textarea>
-                <div class="editor-actions">
-                    <span style="color: var(--notion-muted); font-size: 0.85rem;"><i class="fa-solid fa-sparkles" style="color:#f59e0b; margin-left: 5px;"></i>الذكاء الاصطناعي جاهز لتنظيم لوحتك</span>
-                    <button class="ai-btn" id="aiBtn" onclick="transformToTrello()">
-                        <i class="fa-solid fa-wand-magic-sparkles" id="aiIcon"></i>
-                        <span id="aiText">توليد لوحة الـ Kanban</span>
-                    </button>
+        <div id="trelloView" class="view-content active">
+            <div class="ai-assistant-box">
+                <textarea id="aiInput" placeholder="اكتب أفكارك وعملك هنا ليقوم الذكاء الاصطناعي بتوزيعها تلقائياً على تريلو، كيب، ونوشن في نفس الوقت..."></textarea>
+                <div class="ai-actions">
+                    <span style="color: var(--notion-muted); font-size: 0.85rem;"><i class="fa-solid fa-sparkles" style="color:#f59e0b;"></i> سحر الـ AI يملأ القوائم والجداول فوراً</span>
+                    <button class="ai-btn" id="aiBtn" onclick="runMegaAI()"><i class="fa-solid fa-wand-magic-sparkles" id="aiIcon"></i><span id="aiText">تنظيم وتوزيع شامل</span></button>
                 </div>
             </div>
 
             <div class="trello-board">
-                <div class="trello-column" id="todo-column">
-                    <div class="column-header">
-                        <span>المهام المستخرجة (To Do)</span>
-                        <span class="column-count" id="todo-count">0</span>
-                    </div>
-                    <div class="cards-list" id="todoList">
-                        </div>
-                </div>
+                <div class="trello-column"><div class="column-header"><span>الأفكار والمطلوب</span></div><div class="cards-list" id="todoList"></div><button class="add-card-btn" onclick="addNewTrelloCard('todoList')"><i class="fa-solid fa-plus"></i> إضافة بطاقة</button></div>
+                <div class="trello-column"><div class="column-header"><span>قيد العمل</span></div><div class="cards-list" id="doingList"></div><button class="add-card-btn" onclick="addNewTrelloCard('doingList')"><i class="fa-solid fa-plus"></i> إضافة بطاقة</button></div>
+                <div class="trello-column"><div class="column-header"><span>مكتمل</span></div><div class="cards-list" id="doneList"></div><button class="add-card-btn" onclick="addNewTrelloCard('doneList')"><i class="fa-solid fa-plus"></i> إضافة بطاقة</button></div>
+            </div>
+        </div>
 
-                <div class="trello-column" id="doing-column">
-                    <div class="column-header">
-                        <span>قيد العمل (Doing)</span>
-                        <span class="column-count" id="doing-count">0</span>
-                    </div>
-                    <div class="cards-list" id="doingList"></div>
-                </div>
+        <div id="keepView" class="view-content">
+            <div class="keep-grid" id="keepGrid">
+                <div class="add-keep-btn" onclick="createNewKeepNote()"><i class="fa-solid fa-plus"></i><br>إنشاء قائمة تشيك-لست جديدة</div>
+            </div>
+        </div>
 
-                <div class="trello-column" id="done-column">
-                    <div class="column-header">
-                        <span>مكتملة (Done)</span>
-                        <span class="column-count" id="done-count">0</span>
-                    </div>
-                    <div class="cards-list" id="doneList"></div>
-                </div>
+        <div id="notionView" class="view-content">
+            <div class="notion-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 40%;">اسم المهمة / المشروع</th>
+                            <th style="width: 25%;">الموعد النهائي</th>
+                            <th style="width: 15%;">الأولوية</th>
+                            <th style="width: 20%;">التصنيف</th>
+                        </tr>
+                    </thead>
+                    <tbody id="notionTableBody">
+                        </tbody>
+                </table>
+                <button class="add-row-btn" onclick="addNewNotionRow()"><i class="fa-solid fa-plus"></i> إضافة صف جديد</button>
             </div>
         </div>
     </div>
 
     <script>
-        // تفعيل محرك السحب والإفلات (Trello Flow) لكل عمود بشكل منفصل وبحرية كاملة
-        const lists = ['todoList', 'doingList', 'doneList'];
-        lists.forEach(listId => {
-            new Sortable(document.getElementById(listId), {
-                group: 'kanban', // يربط الأعمدة ببعضها لتنقل الكروت بينها
-                animation: 150,
-                ghostClass: 'sortable-ghost',
-                onEnd: function () {
-                    updateCounts(); // تحديث أرقام العدادات فوق كل عمود عند النقل
-                }
-            });
-        });
-
-        function updateCounts() {
-            document.getElementById('todo-count').innerText = document.getElementById('todoList').children.length;
-            document.getElementById('doing-count').innerText = document.getElementById('doingList').children.length;
-            document.getElementById('done-count').innerText = document.getElementById('doneList').children.length;
+        // محرك التنقل بين الأنظمة الثلاثة
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.view-content').forEach(view => view.classList.remove('active'));
+            
+            if(tabName === 'trello') { document.getElementById('trelloView').classList.add('active'); event.target.classList.add('active'); }
+            if(tabName === 'keep') { document.getElementById('keepView').classList.add('active'); event.target.classList.add('active'); }
+            if(tabName === 'notion') { document.getElementById('notionView').classList.add('active'); event.target.classList.add('active'); }
         }
 
-        async function transformToTrello() {
-            const input = document.getElementById('notionInput');
+        // تفعيل السحب والإفلات لبطاقات تريلو
+        ['todoList', 'doingList', 'doneList'].forEach(id => {
+            new Sortable(document.getElementById(id), { group: 'kanban', animation: 150 });
+        });
+
+        // 1. وظيفة إضافة بطاقة تريلو يدوياً
+        function addNewTrelloCard(listId, titleText = "") {
+            const title = titleText || prompt("أدخل عنوان البطاقة الجديدة:");
+            if(!title) return;
+            const cardHtml = `<div class="task-card"><div style="font-weight:500;">${title}</div><div style="margin-top:0.5rem; font-size:0.8rem; color:var(--notion-muted);"><i class="fa-regular fa-clock"></i> مضافة يدوياً</div></div>`;
+            document.getElementById(listId).insertAdjacentHTML('beforeend', cardHtml);
+        }
+
+        // 2. وظيفة إضافة قائمة جوجل كيب يدوياً
+        function createNewKeepNote(title = "قائمة مهام جديدة", items = ["مهمة 1"]) {
+            const grid = document.getElementById('keepGrid');
+            let itemsHtml = "";
+            items.forEach(item => {
+                itemsHtml += `<div class="keep-item"><input type="checkbox"><span>${item}</span></div>`;
+            });
+            const noteHtml = `
+                <div class="keep-note">
+                    <div class="keep-title"><span>${title}</span><i class="fa-solid fa-thumbtack" style="color:var(--notion-muted); cursor:pointer;"></i></div>
+                    ${itemsHtml}
+                </div>
+            `;
+            grid.insertAdjacentHTML('afterbegin', noteHtml);
+        }
+
+        // 3. وظيفة إضافة صف جدول نوشن يدوياً
+        function addNewNotionRow(title="", time="", priority="Medium", cat="Work") {
+            const tbody = document.getElementById('notionTableBody');
+            const rowHtml = `
+                <tr>
+                    <td><input type="text" class="table-input" value="${title}" placeholder="اكتب اسم المهمة..."></td>
+                    <td><input type="text" class="table-input" value="${time}" placeholder="حدد الوقت..."></td>
+                    <td><input type="text" class="table-input" value="${priority}" style="font-weight:700;"></td>
+                    <td><span class="tag">${cat}</span></td>
+                </tr>
+            `;
+            tbody.insertAdjacentHTML('beforeend', rowHtml);
+        }
+
+        // تشغيل صفوف أولية في جدول نوشن ليعطي مظهراً احترافياً فور الفتح
+        for(let i=0; i<3; i++) { addNewNotionRow(); }
+
+        // محرك الـ AI الخارق الذي يغذي الأنظمة الثلاثة بضغطة زر واحدة
+        async function runMegaAI() {
+            const input = document.getElementById('aiInput');
             const btn = document.getElementById('aiBtn');
             const icon = document.getElementById('aiIcon');
             const text = document.getElementById('aiText');
-            const todoList = document.getElementById('todoList');
 
-            const textValue = input.value.trim();
-            if(!textValue) {
-                alert('اكتب ملاحظاتك أولاً داخل المحرر ليعالجها الـ AI');
-                return;
-            }
+            const val = input.value.trim();
+            if(!val) return alert("اكتب أفكارك ليقوم الـ AI بتوزيعها!");
 
-            // تشغيل الـ Loading
             btn.disabled = true;
             icon.className = "fa-solid fa-circle-notch spinner";
-            text.innerText = "جاري تجميع الكروت...";
+            text.innerText = "جاري البناء والمزامنة...";
 
             try {
                 const response = await fetch('/api/schedule', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ text: textValue })
+                    body: JSON.stringify({ text: val })
                 });
-
-                if(!response.ok) throw new Error();
                 const data = await response.json();
 
-                // مسح اللوحة القديمة لتنزيل الجديدة
-                todoList.innerHTML = "";
-                document.getElementById('doingList').innerHTML = "";
-                document.getElementById('doneList').innerHTML = "";
+                // 1. تغذية تريلو
+                document.getElementById('todoList').innerHTML = "";
+                data.tasks.forEach(t => addNewTrelloCard('todoList', t.title));
 
-                // حقن كروت Trello داخل العمود الأول (To Do)
-                data.tasks.forEach(task => {
-                    let catClass = 'tag-work';
-                    let catText = 'عمل';
-                    if (task.category.toLowerCase() === 'personal') { catClass = 'tag-personal'; catText = 'شخصي'; }
-                    if (task.category.toLowerCase() === 'study') { catClass = 'tag-study'; catText = 'دراسة'; }
-                    if (task.category.toLowerCase() === 'health') { catClass = 'tag-health'; catText = 'صحة'; }
+                // 2. تغذية جوجل كيب
+                const keepItems = data.tasks.map(t => t.title);
+                createNewKeepNote("مستخرج من الـ AI", keepItems);
 
-                    let borderStyle = "border-right-color: #a3a3a3;";
-                    if(task.priority.toLowerCase() === 'high') borderStyle = "border-right-color: #ef4444;";
-                    if(task.priority.toLowerCase() === 'medium') borderStyle = "border-right-color: #f59e0b;";
+                // 3. تغذية جدول نوشن
+                document.getElementById('notionTableBody').innerHTML = "";
+                data.tasks.forEach(t => addNewNotionRow(t.title, t.time, t.priority, t.category));
 
-                    const cardHtml = `
-                        <div class="task-card" style="${borderStyle}">
-                            <div class="task-title">${task.title}</div>
-                            <div class="card-meta">
-                                <span class="card-time"><i class="fa-regular fa-clock"></i> ${task.time}</span>
-                                <span class="tag ${catClass}">${catText}</span>
-                            </div>
-                        </div>
-                    `;
-                    todoList.insertAdjacentHTML('beforeend', cardHtml);
-                });
-
-                updateCounts();
-
-            } catch (err) {
-                alert('فشل الاتصال بمحرك الذكاء الاصطناعي، يرجى التحقق من لوحة تحكم Vercel.');
+                alert("تمت المزامنة بنجاح! تفقد لوحة تريلو، كيب، ونوشن الآن من التبويبات بالفلتر العلوي.");
+            } catch(e) {
+                alert("حدث خطأ في المزامنة.");
             } finally {
                 btn.disabled = false;
                 icon.className = "fa-solid fa-wand-magic-sparkles";
-                text.innerText = "توليد لوحة الـ Kanban";
+                text.innerText = "تنظيم وتوزيع شامل";
             }
         }
     </script>
